@@ -82,13 +82,15 @@ var getMatches = function () {
                         assigned--;
                         processedCount++;
                         parserA.resume();
-                        console.log(entryCount, processedCount);
                         return [2 /*return*/];
                 }
             });
         }); });
         workers.push(worker);
     }
+    parserA.once("data", function () {
+        console.log("processing...");
+    });
     parserA.on("data", function (entryA) { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             if (assigned >= cpuCount) {
@@ -102,9 +104,9 @@ var getMatches = function () {
     }); });
     parserA.on("end", function () {
         console.timeEnd("computeMatches");
-        process.exit();
+        console.log("done");
     });
-    fs_1.default.createReadStream(__dirname + "/../dataset_A_dev.csv").pipe(parserA);
+    fs_1.default.createReadStream(__dirname + "/../dataset_A.csv").pipe(parserA);
 };
 console.time("computeMatches");
 getMatches();

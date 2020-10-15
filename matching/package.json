@@ -14,5 +14,10 @@
     "js-levenshtein": "^1.1.6",
     "ts-jest": "^26.4.1",
     "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "start": "tsc && node ./lib/index.js",
+    "build": "tsc",
+    "test": "jest"
   }
 }

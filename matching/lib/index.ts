@@ -40,10 +40,12 @@ const getMatches = () => {
       assigned--;
       processedCount++;
       parserA.resume();
-      console.log(entryCount, processedCount);
     });
     workers.push(worker);
   }
+  parserA.once("data", () => {
+    console.log("processing...");
+  });
   parserA.on("data", async (entryA: string[]) => {
     if (assigned >= cpuCount) {
       parserA.pause();
@@ -54,8 +56,9 @@ const getMatches = () => {
   });
   parserA.on("end", () => {
     console.timeEnd("computeMatches");
+    console.log("done");
   });
-  fs.createReadStream(__dirname + "/../dataset_A_dev.csv").pipe(parserA);
+  fs.createReadStream(__dirname + "/../dataset_A.csv").pipe(parserA);
 };
 
 console.time("computeMatches");
